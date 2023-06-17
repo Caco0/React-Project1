@@ -10,3 +10,9 @@
   display: flex;
   min-height: 60px;
 }
+.search-container {
+  margin-bottom: 5px;
+}
+.search-container h1 {
+  margin-bottom: 10px;
+}
