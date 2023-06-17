@@ -61,6 +61,7 @@ class Home extends Component {
             searchValue={searchValue}
             handleChange={this.handleChange}
           />
+          <i class="bx bx-search-alt-2"></i>
         </div>
 
         {filteredPosts.length > 0 && <Posts posts={filteredPosts} />}

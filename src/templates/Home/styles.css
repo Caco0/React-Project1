@@ -16,3 +16,7 @@
 .search-container h1 {
   margin-bottom: 10px;
 }
+.search-container i {
+  font-size: 2rem;
+  padding: 0 0 0 5px;
+}
