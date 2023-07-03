@@ -1,14 +1,58 @@
-// import { render, screen } from '@testing-library/react';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { Home } from '.';
 
-// import Home from './index';
+const handlers = [
+  rest.get('*jsonplaceholder.typicode.com*', async (req, res, ctx) => {
+    return res(
+      ctx.json([
+        {
+          userId: 1,
+          id: 1,
+          title: 'Title 1',
+          body: 'body 1',
+          url: 'img1.png',
+        },
+        {
+          userId: 2,
+          id: 2,
+          title: 'Title 2',
+          body: 'body 2',
+          url: 'img2.png',
+        },
+        {
+          userId: 3,
+          id: 3,
+          title: 'Title 3',
+          body: 'body 3',
+          url: 'img3.png',
+        },
+      ]),
+    );
+  }),
+];
 
-// test('renders learn react link', () => {
-//   render(<Home />);
-//   const linkElement = screen.getByText(/learn react/i);
-//   expect(linkElement).toBeInTheDocument();
-// });
-describe("<Home />", () => {
-  it("is a dummy test", () => {
-    expect(1).toBe(1);
+const server = setupServer(...handlers);
+
+describe('<Home />', () => {
+  beforeAll(() => {
+    server.listen();
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
+  it('shoud render search, posts and load more', async () => {
+    render(<Home />);
+    const noMorePosts = screen.getByText('Não existem posts =(');
+
+    await waitForElementToBeRemoved(noMorePosts);
+    screen.debug();
   });
 });
